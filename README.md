@@ -8,7 +8,7 @@ This repository contains the Web UI service for the Book Catalog application. It
 	•	Delete Book: Option to remove a book from the catalog.
  
 How to Run the Web UI Service
-	1.	Download the Project Files: Clone or download this repository to your local machine.
+	1.	Download the Project Files: Clone or download dev-br repository to your local machine.
 	2.	Navigate to the Executable JAR Folder:  cd web-service-ui/target
  
 Run the JAR File:
