@@ -1,5 +1,5 @@
-Web UI Service for Book Catalog
-About:
+About: Web UI Service for Book Catalog
+
 This repository contains the Web UI service for the Book Catalog application. It serves as the frontend interface to interact with the Book Catalog API, providing users with a web interface to list, add, edit, and delete books. Note: kindly ensure the management api service is up and running FIRST
 ==Features====
 	•	View Books: List all the books in the catalog.
