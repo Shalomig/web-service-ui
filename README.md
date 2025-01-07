@@ -17,7 +17,7 @@ Base url: http://localhost:1987/books/
 
 Access the Web UI: http://localhost:1987/books/
 Open your web browser and navigate to the following URL:
-Call the base url below on the web to view boot catlog ui. Then go ahead to add,delete and edit books.
+Call the base url below above the web to view boot catlog ui. Then go ahead to add,delete and edit books.
 Note: kindly ensure the management service API is up and running.
 
 Usage
