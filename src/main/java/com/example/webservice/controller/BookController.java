@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.example.webservice.model.Book;
@@ -33,34 +34,54 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    public String saveBook(@ModelAttribute Book book) {
-        bookClientService.addBook(book); // Correct service for adding a book
-        return "redirect:/books"; // Redirect to list of books after saving
+    public String saveBook(@ModelAttribute Book book, Model model) {
+        try {
+            // Add the book using the service
+            bookClientService.addBook(book);
+            
+            // Add a success message to the model
+            model.addAttribute("message", "Book added successfully!");
+            model.addAttribute("messageType", "success"); // For styling (optional)
+            
+            return "redirect:/books"; // Redirect to list of books
+        } catch (Exception e) {
+            // Add an error message to the model
+            model.addAttribute("message", "Error adding book: ISBN '" + book.getIsbn() + "' already exists.");
+            model.addAttribute("messageType", "error"); // For styling (optional)
+            
+            return "book/add"; // Return the add-book form if there's an error
+        }
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/edit/{id}")
     public String editBookForm(@PathVariable Long id, Model model) {
         model.addAttribute("book", bookClientService.getBookById(id)); // Use bookClientService for fetching the book
         return "book/edit"; // Correctly references "book/edit.html"
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/update/{id}")
     public String updateBook(@PathVariable Long id, @ModelAttribute Book book) {
         bookClientService.updateBook(id, book); // Correct service for updating the book
         return "redirect:/books"; // Redirect to list of books after updating
     }
 
-    @GetMapping("/{id}/delete")
+    @GetMapping("/delete/{id}")
     public String deleteBookForm(@PathVariable Long id, Model model) {
         model.addAttribute("book", bookClientService.getBookById(id)); // Use bookClientService for fetching the book
         return "book/delete"; // Correctly references "book/delete.html"
     }
 
-    @PostMapping("/{id}/delete")
-    public String deleteBook(@PathVariable Long id) {
-        bookClientService.deleteBook(id); // Correct service for deleting the book
-        return "redirect:/books"; // Redirect to list of books after deletion
+    @PostMapping("/delete/{id}")
+    public String deleteBook(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        try {
+            bookClientService.deleteBook(id);
+            redirectAttributes.addFlashAttribute("message", "Book deleted successfully!");
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("error", "Failed to delete book: " + e.getMessage());
+        }
+        return "redirect:/books";
     }
+
 }
 
 
